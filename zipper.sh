@@ -16,9 +16,8 @@ zip_files() {
 
     for file_name in $1 ; do
         #Find out the would be ZIP size if this file were to be included
-        current_file=$(ls -l $file_name | awk '{print  $5}')
-        (( zip_size+=$((10#$current_file)) )) # using '10#' to tell the shell that the variable is a number in base 10.
-        # echo Size of ZIP with this file: $zip_size bytes
+        current_file_size=$(ls -l $file_name | awk '{print  $5}')
+        (( zip_size+=$((10#$current_file_size)) )) # using '10#' to tell the shell that the variable is a number in base 10.
 
         #Stop adding files to ZIP if the max size limit is exceeded
         if (( zip_size>=max_zip_size_bytes )); then
