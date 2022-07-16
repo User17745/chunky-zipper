@@ -12,6 +12,8 @@ zip_files() {
     zip_size=0
     file_list=""
 
+    echo Working on ZIP $zip_counter.
+
     for file_name in $1 ; do
         #Find out the would be ZIP size if this file were to be included
         current_file=$(ls -l $file_name | awk '{print  $5}')
@@ -24,20 +26,19 @@ zip_files() {
             break
         fi
 
-        echo Counter sitting at: $file_counter
         file_list+=" "$file_name
         (( file_counter+=1 ))
     done
 
     file_list="${file_list:1}" #Remove extra space at the begning of the file list.
 
+    echo Zipping...
     zip $ZIP_PREFIX$zip_counter".zip" $file_list
     (( zip_counter+=1 ))
 
-    echo List of files included in this ZIP chunk: $file_list
+    # echo List of files included in this ZIP chunk: $file_list
 }
 
-# echo "$total_files"
 for (( i=0; $file_counter<$total_files; i++ )); do
     zip_files "${files[*]:$file_counter}"
 done
